@@ -1,7 +1,9 @@
 package ru.otus.spring01.dao;
 
-import ru.otus.spring01.domain.Person;
+import java.util.Map;
 
 public interface PersonDao {
-    void savePerson(Person person);
+
+    Map<String, String> readQuestions();
+
 }

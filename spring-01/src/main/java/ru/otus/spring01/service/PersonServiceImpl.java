@@ -1,45 +1,35 @@
 package ru.otus.spring01.service;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ru.otus.spring01.dao.PersonDao;
 import ru.otus.spring01.domain.Person;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-
+@Service
 public class PersonServiceImpl implements PersonService {
 
     private final PersonDao dao;
 
-    private String questionFile;
+    private final int scoreToPass;
 
-    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-    BufferedReader getReader(){
-        return reader;
-    }
-
-    public PersonServiceImpl(PersonDao dao) {
+    @Autowired
+    public PersonServiceImpl(PersonDao dao, @Value("${scoreToPass}") int scoreToPass) {
         this.dao = dao;
+        this.scoreToPass = scoreToPass;
     }
 
     @Override
-    public void save(String lastName, String firstName, int score) {
-        dao.savePerson(new Person(lastName, firstName, score));
-    }
-
-    public void setQuestionFile(String questionFile) {
-        this.questionFile = questionFile;
-    }
-
-    public String getRowFromConsole(BufferedReader reader){
+    public String getRowFromConsole() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String row = null;
         try {
             row = reader.readLine();
@@ -51,12 +41,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public String getLastName() {
-        return getRowFromConsole(getReader());
+        return getRowFromConsole();
     }
 
     @Override
     public String getFirstName() {
-        return getRowFromConsole(reader);
+        return getRowFromConsole();
     }
 
     @Override
@@ -65,43 +55,45 @@ public class PersonServiceImpl implements PersonService {
     }
 
     public Map<String, String> readQuestions() {
-        Map<String, String> questionMap = new HashMap<>();
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(questionFile);
-        assert inputStream != null;
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        CSVParser csvParser;
-        try {
-            csvParser = CSVFormat.EXCEL.parse(inputStreamReader);
-            for (CSVRecord record : csvParser) {
-                String question = record.get(0);
-                String answer = record.get(1);
-                questionMap.put(question, answer);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return questionMap;
+        return dao.readQuestions();
     }
 
+    @Override
     public int getAnswers(Map<String, String> questionMap) {
         int score = 0;
-        for(Map.Entry<String, String> entry : questionMap.entrySet()){
-            try {
-                score += answer(entry.getKey(), entry.getValue());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for (Map.Entry<String, String> entry : questionMap.entrySet()) {
+            score += answer(entry.getKey(), entry.getValue());
         }
         return score;
     }
 
-    public int answer(String question, String answer) throws IOException {
+    @Override
+    public int answer(String question, String answer) {
         System.out.println(question);
-        String actualAnswer = getRowFromConsole(reader);
+        String actualAnswer = getRowFromConsole();
         if (actualAnswer.equals(answer)) {
             return 1;
         }
         return 0;
+    }
+
+    @Override
+    public void init() {
+
+        ResourceBundle bundle = ResourceBundle.getBundle("bundle", Locale.getDefault());
+        System.out.println("Locale: " + Locale.getDefault());
+        Person person = new Person();
+        System.out.println(bundle.getString("firstName"));
+        person.setFirstName(getFirstName());
+        System.out.println(bundle.getString("lastName"));
+        person.setLastName(getLastName());
+        person.setScore(getScore());
+        System.out.print(bundle.getString("yourScore"));
+        System.out.println(person.getScore());
+        if (person.getScore() < scoreToPass) {
+            System.out.println(bundle.getString("youLost"));
+        } else {
+            System.out.println(bundle.getString("youWon"));
+        }
     }
 }

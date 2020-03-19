@@ -1,21 +1,18 @@
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import ru.otus.spring01.service.PersonService;
 
-
+@PropertySource("classpath:application.properties")
+@Configuration
+@ComponentScan(basePackages = "ru.otus.spring01")
 public class Main {
+
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+
         PersonService personService = context.getBean(PersonService.class);
-        System.out.println("First name: ");
-        String firstName = personService.getFirstName();
-        System.out.println("Last name: ");
-        String lastName = personService.getLastName();
-        int score = personService.getScore();
-        personService.save(firstName,lastName,score);
-        System.out.println("Score:");
-        System.out.println(score);
-
-
-
+        personService.init();
     }
 }
