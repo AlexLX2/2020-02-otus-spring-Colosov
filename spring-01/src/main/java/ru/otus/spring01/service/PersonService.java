@@ -1,7 +1,7 @@
 package ru.otus.spring01.service;
 
 
-import java.io.BufferedReader;
+import java.util.Map;
 
 public interface PersonService {
 
@@ -11,8 +11,12 @@ public interface PersonService {
 
     int getScore();
 
-    void save(String lastName, String firstName, int score);
+    String getRowFromConsole();
 
-    String getRowFromConsole(BufferedReader reader);
+    int getAnswers(Map<String, String> questionMap);
+
+    int answer(String question, String answer);
+
+    void init();
 
 }

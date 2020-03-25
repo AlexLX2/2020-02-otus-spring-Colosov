@@ -2,17 +2,11 @@ package ru.otus.spring01.service;
 
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import ru.otus.spring01.dao.PersonDao;
-
-import java.io.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersonServiceImplTest {
@@ -20,27 +14,17 @@ class PersonServiceImplTest {
     @Mock
     private PersonDao personDao;
 
+    @Value("${scoreToPass}")
+    private int passScore;
+
     private PersonService personService;
-    private BufferedReader reader;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
 
-        personService = new PersonServiceImpl(personDao);
-        reader = mock(BufferedReader.class);
-        when(reader.readLine()).thenReturn("AAA");
+        personService = new PersonServiceImpl(personDao, passScore);
 
     }
 
-    @Test
-    @DisplayName("считывает строку")
-    void shouldGetRowFromConsole() {
-        assertThat("AAA").isEqualTo(personService.getRowFromConsole(reader));
-    }
 
-//    @Test
-//    @DisplayName("возвращает результат")
-//    void getScore() {
-//        assertThat(personService.getScore()).isGreaterThanOrEqualTo(0);
-//    }
 }

@@ -1,14 +1,11 @@
 package ru.otus.spring01.domain;
 
 public class Person {
-    String lastName;
-    String firstName;
-    int score;
+    private String lastName;
+    private String firstName;
+    private int score;
 
-    public Person(String lastName, String firstName, int score) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.score = score;
+    public Person() {
     }
 
     public String getLastName() {
