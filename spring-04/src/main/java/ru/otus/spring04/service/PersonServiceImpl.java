@@ -87,11 +87,12 @@ public class PersonServiceImpl implements PersonService {
 
         ResourceBundle bundle = ResourceBundle.getBundle("bundle", Locale.getDefault());
         System.out.println("Locale: " + Locale.getDefault());
-        Person person = new Person();
+
         System.out.println(messageSource.getMessage("firstName", null, Locale.getDefault()));
-        person.setFirstName(getFirstName());
+        String firstName = getFirstName();
         System.out.println(messageSource.getMessage("lastName", null, Locale.getDefault()));
-        person.setLastName(getLastName());
+        String lastName = getLastName();
+        Person person = new Person(firstName, lastName);
         person.setScore(getScore());
         System.out.println(messageSource.getMessage("yourScore", null, Locale.getDefault()));
         System.out.println(person.getScore());
