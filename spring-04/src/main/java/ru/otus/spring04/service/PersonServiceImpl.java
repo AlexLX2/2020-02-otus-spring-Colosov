@@ -25,7 +25,6 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private MessageSource messageSource;
 
-    @Autowired
     public PersonServiceImpl(PersonDao dao, @Value("${scoreToPass}") int scoreToPass) {
         this.dao = dao;
         this.scoreToPass = scoreToPass;
