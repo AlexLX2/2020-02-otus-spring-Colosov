@@ -1,6 +1,8 @@
 package ru.otus.spring04.service;
 
 
+import ru.otus.spring04.domain.Person;
+
 import java.util.Map;
 
 public interface PersonService {
@@ -17,6 +19,8 @@ public interface PersonService {
 
     int answer(String question, String answer);
 
-    void init();
+    void init(Person person);
+
+    Person getName();
 
 }
