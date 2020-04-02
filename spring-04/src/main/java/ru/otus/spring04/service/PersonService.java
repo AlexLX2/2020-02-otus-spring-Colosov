@@ -19,7 +19,7 @@ public interface PersonService {
 
     int answer(String question, String answer);
 
-    void init(Person person);
+    void passTest(Person person);
 
     Person getName();
 

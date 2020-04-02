@@ -25,7 +25,7 @@ public class ShellCommands {
     @ShellMethod(value = "Go testing", key = {"test", "t"})
     @ShellMethodAvailability(value = "isPersonCreated")
     public void goTesting() {
-        personService.init(person);
+        personService.passTest(person);
     }
 
     private Availability isPersonCreated() {

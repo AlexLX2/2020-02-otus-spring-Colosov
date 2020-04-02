@@ -82,7 +82,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void init(Person person) {
+    public void passTest(Person person) {
 
         ResourceBundle bundle = ResourceBundle.getBundle("bundle", Locale.getDefault());
         System.out.println("Locale: " + Locale.getDefault());
