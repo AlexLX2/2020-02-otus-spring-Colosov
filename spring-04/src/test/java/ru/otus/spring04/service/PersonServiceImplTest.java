@@ -39,7 +39,7 @@ class PersonServiceImplTest {
     @Test
     @DisplayName("создан человек")
     void getName() {
-
+        person = personService.getName();
         assertThat(person).isNotNull();
     }
 }
