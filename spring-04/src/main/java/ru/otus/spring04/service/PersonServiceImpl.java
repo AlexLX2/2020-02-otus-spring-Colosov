@@ -82,16 +82,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void init() {
+    public void passTest(Person person) {
 
         ResourceBundle bundle = ResourceBundle.getBundle("bundle", Locale.getDefault());
         System.out.println("Locale: " + Locale.getDefault());
 
-        System.out.println(messageSource.getMessage("firstName", null, Locale.getDefault()));
-        String firstName = getFirstName();
-        System.out.println(messageSource.getMessage("lastName", null, Locale.getDefault()));
-        String lastName = getLastName();
-        Person person = new Person(firstName, lastName);
         person.setScore(getScore());
         System.out.println(messageSource.getMessage("yourScore", null, Locale.getDefault()));
         System.out.println(person.getScore());
@@ -100,5 +95,15 @@ public class PersonServiceImpl implements PersonService {
         } else {
             System.out.println(messageSource.getMessage("youWon", null, Locale.getDefault()));
         }
+    }
+
+    @Override
+    public Person getName() {
+        System.out.println(messageSource.getMessage("firstName", null, Locale.getDefault()));
+        String firstName = getFirstName();
+        System.out.println(messageSource.getMessage("lastName", null, Locale.getDefault()));
+        String lastName = getLastName();
+        Person person = new Person(firstName, lastName);
+        return person;
     }
 }
