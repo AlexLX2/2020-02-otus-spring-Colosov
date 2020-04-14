@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    initialization-mode: always
+    schema: test_schema.sql
+    data: test_data.sql
+  shell:
+    interactive:
+      enabled: false
