@@ -13,5 +13,6 @@
     <modules>
         <module>spring-01</module>
         <module>spring-04</module>
+        <module>BookDB</module>
     </modules>
 </project>
