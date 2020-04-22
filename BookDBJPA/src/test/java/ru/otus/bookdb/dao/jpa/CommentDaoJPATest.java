@@ -22,19 +22,13 @@ class CommentDaoJPATest {
     @Autowired
     private CommentDaoJPA commentDaoJPA;
 
-    @Test
-    @DisplayName("должен возвращать все комментарии по книге")
-    void shouldReadAllComments() {
-        int actualCommentCount = commentDaoJPA.readAllComments(em.find(Book.class, BOOK_ID)).size();
-        assertThat(actualCommentCount).isEqualTo(EXPECTED_COMMENT_COUNT);
-    }
 
     @Test
     @DisplayName("должен добавлять комментарий")
     void shouldAddComment() {
         Comment comment = new Comment(0, "Test", em.find(Book.class, BOOK_ID));
         commentDaoJPA.addComment(comment);
-        assertThat(commentDaoJPA.readAllComments(em.find(Book.class, BOOK_ID)).size())
+        assertThat((em.find(Book.class, BOOK_ID)).getComments().size())
                 .isEqualTo(EXPECTED_COMMENT_COUNT + 1);
     }
 
@@ -42,14 +36,16 @@ class CommentDaoJPATest {
     @DisplayName("должен удалять комментарий по ИД")
     void shouldDeleteComment() {
         commentDaoJPA.deleteComment(1L);
-        assertThat(commentDaoJPA.readAllComments(em.find(Book.class, BOOK_ID)).size())
+        assertThat((em.find(Book.class, BOOK_ID)).getComments().size())
                 .isEqualTo(EXPECTED_COMMENT_COUNT - 1);
     }
 
     @Test
     @DisplayName("должен обновлять комментарий")
     void shouldUpdateComment() {
-        commentDaoJPA.updateComment(1L, "Test");
+        Comment comment = commentDaoJPA.getCommentById(1L);
+        comment.setText("Test");
+        commentDaoJPA.updateComment(comment);
         assertThat(em.find(Comment.class, 1L).getText()).isEqualTo("Test");
     }
 }

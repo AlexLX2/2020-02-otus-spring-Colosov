@@ -1,18 +1,17 @@
 package ru.otus.bookdb.dao.jpa;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.bookdb.dao.AuthorDao;
 import ru.otus.bookdb.domain.Author;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public class AuthorDaoJPA implements AuthorDao {
 
     @PersistenceContext
@@ -29,13 +28,12 @@ public class AuthorDaoJPA implements AuthorDao {
     }
 
     @Override
+    @Transactional
     public Author getOrCreateAuthorByName(String authorName) {
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.name = :name", Author.class);
         query.setParameter("name", authorName);
         if (query.getResultList().size() == 0) {
-            Author author = new Author(0, authorName);
-            em.persist(author);
-            return author;
+            return new Author(0, authorName);
         } else {
             return query.getSingleResult();
         }

@@ -3,3 +3,12 @@ target/
 .idea/
 *.iml
 /spring-04/.mvn/
+*/target/
+*/!.mvn/wrapper/maven-wrapper.jar
+*/.mvn/
+*/mvnw
+*/mvnw.cmd
+*/.idea
+*.iws
+*.ipr
+*.log

@@ -9,7 +9,6 @@ import ru.otus.bookdb.controller.BookController;
 import ru.otus.bookdb.domain.Book;
 
 import java.util.List;
-import java.util.Optional;
 
 @ShellComponent(value = "Book menu")
 public class ShellBookMenu {
@@ -52,8 +51,8 @@ public class ShellBookMenu {
 
     @ShellMethod(value = "Get book by ID", key = {"g", "get"})
     public void getBookByID(@ShellOption(value = "-id", help = "Book id") long id) {
-        Optional<Book> book = bookController.getBookByID(id);
-        System.out.println(book.isPresent() ? book.get() : "Такой книги не существует");
+        Book book = bookController.getBookByID(id);
+        System.out.println(book);
     }
 
 

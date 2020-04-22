@@ -16,9 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GenreDaoJPATest {
 
     private static final Genre EXPECTED_GENRE = new Genre(1, "Drama");
+    private static final Genre UNEXPECTED_GENRE = new Genre(0, "Sci-fi");
     private static final int EXPECTED_GENRE_COUNT = 2;
+
     @Autowired
     private TestEntityManager em;
+
     @Autowired
     private GenreDaoJPA genreDaoJPA;
 
@@ -38,10 +41,17 @@ class GenreDaoJPATest {
     }
 
     @Test
-    @DisplayName("должен возвращать ид автора или создавать нового по имени")
-    public void shouldGetOrCreatAuthorByName() {
+    @DisplayName("должен возвращать ид существующего жанра или создавать нового по имени")
+    public void shouldGetGenreByName() {
         Genre actualGenre = genreDaoJPA.getOrCreateGenreByName(EXPECTED_GENRE.getName());
         assertThat(actualGenre).isEqualToComparingFieldByField(EXPECTED_GENRE);
+    }
+
+    @Test
+    @DisplayName("должен создавать несуществующий жанр по имени")
+    public void shouldCreateGenreByName() {
+        Genre actualGenre = genreDaoJPA.getOrCreateGenreByName(UNEXPECTED_GENRE.getName());
+        assertThat(actualGenre).isEqualToComparingFieldByField(UNEXPECTED_GENRE);
     }
 
 }

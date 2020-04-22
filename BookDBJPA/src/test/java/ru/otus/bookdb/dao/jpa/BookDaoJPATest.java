@@ -32,7 +32,7 @@ class BookDaoJPATest {
     @Test
     @DisplayName("находит по ИД")
     void shouldGetByID() {
-        Optional<Book> actualBook = bookDao.getByID(1L);
+        Optional<Book> actualBook = Optional.ofNullable(bookDao.getByID(1L));
         assertThat(actualBook).isPresent().get().isEqualToComparingOnlyGivenFields(EXPECTED_BOOK, "author", "genre", "title");
     }
 
@@ -52,7 +52,7 @@ class BookDaoJPATest {
     @DisplayName("обновляет книгу")
     void shouldUpdateBook() {
         bookDao.updateBook(EXPECTED_UPDATED_BOOK);
-        assertThat(bookDao.getByID(EXPECTED_UPDATED_BOOK.getId())).isPresent().get().usingRecursiveComparison().isEqualTo(EXPECTED_UPDATED_BOOK);
+        assertThat(bookDao.getByID(EXPECTED_UPDATED_BOOK.getId())).usingRecursiveComparison().isEqualTo(EXPECTED_UPDATED_BOOK);
     }
 
     @Test
@@ -64,7 +64,7 @@ class BookDaoJPATest {
     }
 
     @Test
-    @DisplayName("добавляет книгу")
+    @DisplayName("добавляет книгу, жанр и автора")
     void shouldAddBook() {
         Author expectedAuthor = authorDao.getOrCreateAuthorByName("George Lucas");
         Genre expectedGenre = genreDao.getOrCreateGenreByName("Sci-Fi");
@@ -72,5 +72,7 @@ class BookDaoJPATest {
         Book addedBook = new Book(0, title, expectedGenre, expectedAuthor);
         bookDao.addBook(addedBook);
         assertThat(bookDao.readAllBooks()).contains(addedBook);
+        assertThat(authorDao.readAllAuthors().contains(expectedAuthor));
+        assertThat(genreDao.readAllGenres().contains(expectedGenre));
     }
 }

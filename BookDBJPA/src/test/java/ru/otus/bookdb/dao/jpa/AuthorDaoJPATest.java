@@ -17,6 +17,8 @@ class AuthorDaoJPATest {
 
     private static final int EXPECTED_AUTHORS_COUNT = 4;
     private static final Author EXPECTED_AUTHOR = new Author(1, "Mark Twain");
+    private static final Author UNEXPECTED_AUTHOR = new Author(0, "George Lucas");
+
     @Autowired
     private TestEntityManager em;
 
@@ -31,10 +33,17 @@ class AuthorDaoJPATest {
     }
 
     @Test
-    @DisplayName("должен возвращать ид автора или создавать нового по имени")
-    public void shouldGetOrCreatAuthorByName() {
+    @DisplayName("должен возвращать ид существующего автора")
+    public void shouldGetAuthorByName() {
         Author actualAuthor = authorDaoJPA.getOrCreateAuthorByName(EXPECTED_AUTHOR.getName());
         assertThat(actualAuthor).isEqualToComparingFieldByField(EXPECTED_AUTHOR);
+    }
+
+    @Test
+    @DisplayName("должен  создавать несуществующего автора по имени")
+    public void shouldCreateAuthorByName() {
+        Author actualAuthor = authorDaoJPA.getOrCreateAuthorByName(UNEXPECTED_AUTHOR.getName());
+        assertThat(actualAuthor).isEqualToComparingFieldByField(UNEXPECTED_AUTHOR);
     }
 
     @Test
@@ -42,7 +51,7 @@ class AuthorDaoJPATest {
     public void shouldGetAuthorByID() {
         Author expectedAuthor = em.find(Author.class, EXPECTED_AUTHOR.getId());
         Author actualAuthor = authorDaoJPA.getByID(EXPECTED_AUTHOR.getId()).get();
-        assertThat(actualAuthor).isEqualToComparingFieldByField(expectedAuthor);
+        assertThat(actualAuthor).isNotNull().isEqualToComparingFieldByField(expectedAuthor);
     }
 
 }

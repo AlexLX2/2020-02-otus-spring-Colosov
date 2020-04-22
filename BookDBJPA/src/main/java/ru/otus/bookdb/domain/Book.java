@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedEntityGraph(name = "book-genre-graph", attributeNodes = {@NamedAttributeNode("genre")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,7 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     public Book(long id, String title, Genre genre, Author author) {
@@ -47,7 +46,6 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", genre=" + genre +
                 ", author=" + author +
-                ", comments = " + comments.size() +
                 '}';
     }
 }

@@ -10,7 +10,6 @@ import ru.otus.bookdb.domain.Book;
 import ru.otus.bookdb.domain.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class BookControllerImpl implements BookController {
@@ -27,9 +26,8 @@ public class BookControllerImpl implements BookController {
 
     @Override
     public void addBook(String title, String author, String genre) {
-        Genre dbGenre = genreDao.getOrCreateGenreByName(genre);
+       Genre dbGenre = genreDao.getOrCreateGenreByName(genre);
         Author dbAuthor = authorDao.getOrCreateAuthorByName(author);
-
         Book book = new Book(0, title, dbGenre, dbAuthor);
         bookDao.addBook(book);
     }
@@ -53,7 +51,7 @@ public class BookControllerImpl implements BookController {
     }
 
     @Override
-    public Optional<Book> getBookByID(long id) {
+    public Book getBookByID(long id) {
         return bookDao.getByID(id);
     }
 

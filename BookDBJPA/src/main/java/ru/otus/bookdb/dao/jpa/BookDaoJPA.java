@@ -1,33 +1,36 @@
 package ru.otus.bookdb.dao.jpa;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.bookdb.dao.BookDao;
 import ru.otus.bookdb.domain.Book;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-@Transactional
 public class BookDaoJPA implements BookDao {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public Optional<Book> getByID(long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+    public Book getByID(long id) {
+        TypedQuery<Book> query = em.createQuery("select b from Book b" +
+                " join fetch b.author" +
+                " join fetch b.genre " +
+                " join fetch b.comments where b.id = :id", Book.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     @Override
     public List<Book> readAllBooks() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b " +
-                "join fetch b.author " +
-                "left join fetch b.comments", Book.class);
-        query.setHint("javax.persistence.fetchgraph", entityGraph);
+        TypedQuery<Book> query = em.createQuery("select b from Book b" +
+                " join fetch b.author" +
+                " join fetch b.genre", Book.class);
         return query.getResultList();
     }
 
@@ -38,18 +41,31 @@ public class BookDaoJPA implements BookDao {
 
     @Override
     public void deleteBookByID(long id) {
-        Query query = em.createQuery("delete from Book b where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        em.remove(em.find(Book.class, id));
     }
 
     @Override
+    @Transactional
     public void addBook(Book book) {
+        if (book.getGenre().getId() == 0) {
+            em.persist(book.getGenre());
+        }
+        if (book.getAuthor().getId() == 0) {
+            em.persist(book.getAuthor());
+        }
         em.persist(book);
     }
 
     @Override
+    @Transactional
     public void updateBook(Book book) {
+        if (book.getGenre().getId() == 0) {
+            em.persist(book.getGenre());
+        }
+        if (book.getAuthor().getId() == 0) {
+            em.persist(book.getAuthor());
+        }
         em.merge(book);
     }
+
 }
