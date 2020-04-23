@@ -14,5 +14,6 @@
         <module>spring-01</module>
         <module>spring-04</module>
         <module>BookDB</module>
+        <module>BookDBJPA</module>
     </modules>
 </project>

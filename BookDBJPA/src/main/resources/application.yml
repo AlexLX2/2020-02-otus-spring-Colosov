@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    initialization-mode: always
+    schema: schema.sql
+    data: data.sql
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
