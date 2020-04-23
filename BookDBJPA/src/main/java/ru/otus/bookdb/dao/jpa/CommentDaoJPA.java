@@ -23,9 +23,7 @@ public class CommentDaoJPA implements CommentDao {
     @Override
     @Transactional
     public void deleteComment(long id) {
-        em.createQuery("delete from Comment c  where c.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
+        em.remove(em.find(Comment.class, id));
     }
 
     @Override
