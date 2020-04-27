@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      database: bookdb
+      port: 27017
+      uri: mongodb://localhost
+logging:
+  level:
+    root: debug

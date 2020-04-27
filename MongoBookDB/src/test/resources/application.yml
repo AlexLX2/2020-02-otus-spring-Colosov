@@ -1,0 +1,9 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  data:
+    mongodb:
+      database: test
+      port: 0
+#      uri: mongodb://localhost
