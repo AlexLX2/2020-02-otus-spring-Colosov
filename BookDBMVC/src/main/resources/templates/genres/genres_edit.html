@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all authors</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:insert="footer :: menu"></div>
+<h1>Edit genre:</h1>
+<form id="edit-genre" th:action="@{/genre/edit}" th:method="post">
+    <div>
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" readonly="readonly" th:value="${genre.id}" type="text" value="0"/>
+    </div>
+    <div>
+        <label for="name-input">Name:</label>
+        <input id="name-input" name="name" th:value="${genre.name}" type="text" value="Sci-fi"/>
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+
+
+</form>
+</body>
+<footer th:insert="footer :: copy">...</footer>
+</html>

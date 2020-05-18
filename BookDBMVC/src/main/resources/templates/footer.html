@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="menu">
+    <ol>
+        <li><a href="authors/authors_list.html" th:href="@{/author}">Authors List</a></li>
+        <li><a href="genres/genres_list.html" th:href="@{/genre}">Genres List</a></li>
+        <li><a href="books/books_list.html" th:href="@{/book}">Books List</a></li>
+    </ol>
+</nav>
+<div class="footer" th:fragment="copy">
+    2020 Alex Kols Otus Spring Framework 02/2020
+</div>
+</body>
+</html>
