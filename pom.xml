@@ -17,5 +17,6 @@
         <module>BookDBJPA</module>
         <module>BookDBSpringData</module>
         <module>MongoBookDB</module>
+        <module>BookDBMVC</module>
     </modules>
 </project>

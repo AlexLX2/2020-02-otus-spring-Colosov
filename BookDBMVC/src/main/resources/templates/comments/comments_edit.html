@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit comment</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:insert="footer :: menu"></div>
+<h1>Edit comment:</h1>
+<form id="edit-comment" th:action="@{/book/comments/edit}" th:method="post">
+    <div>
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" readonly="readonly" th:value="${comment.id}" type="text" value="1"/>
+    </div>
+    <div>
+        <label for="name-input">Text:</label>
+        <input id="name-input" name="text" th:value="${comment.text}" type="text" value="Comment sample"/>
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+
+</form>
+</body>
+<footer th:insert="footer :: copy">...</footer>
+</html>

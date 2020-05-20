@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all books</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:insert="footer :: menu"></div>
+<h1>Books:</h1>
+<table class="books">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book: ${books}" th:object="${book}">
+        <td th:text="*{id}">1</td>
+        <td th:text="*{title}">John Doe</td>
+        <td th:text="*{authorName}">Vladimir Lenin</td>
+        <td th:text="*{genreName}">Fantasy</td>
+        <td>
+            <a href="books_edit.html" th:href="@{/book/edit(id=*{id})}">Edit</a>
+            <a href="../comments/comments_list.html" th:href="@{/book/comments(id=*{id})}">View</a>
+            <a href="books_edit.html" th:href="@{/book/delete(id=*{id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="books_edit.html" th:href="@{/book/add}">Add new book</a>
+</body>
+<footer th:insert="footer :: copy">...</footer>
+</html>
