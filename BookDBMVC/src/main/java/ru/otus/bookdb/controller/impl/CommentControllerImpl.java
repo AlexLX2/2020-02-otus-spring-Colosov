@@ -1,7 +1,6 @@
 package ru.otus.bookdb.controller.impl;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +34,6 @@ public class CommentControllerImpl implements CommentController {
     }
 
     @Override
-    @Transactional
     @PostMapping("/book/comments/add")
     public String addCommentForABook(long bookid, String text, Model model) {
         Comment comment = new Comment(0, text, bookService.getBookById(bookid));

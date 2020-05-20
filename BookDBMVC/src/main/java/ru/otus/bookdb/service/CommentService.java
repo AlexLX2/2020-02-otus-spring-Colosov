@@ -1,6 +1,7 @@
 package ru.otus.bookdb.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.bookdb.domain.Comment;
 import ru.otus.bookdb.repository.BookRepository;
 import ru.otus.bookdb.repository.CommentRepository;
@@ -20,6 +21,7 @@ public class CommentService {
         return commentRepository.findAllByBook_Id(id);
     }
 
+    @Transactional
     public void saveComment(Comment comment) {
         commentRepository.save(comment);
     }

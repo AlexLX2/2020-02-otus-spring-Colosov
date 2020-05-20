@@ -32,7 +32,6 @@
         <button type="submit">Save</button>
     </div>
 
-
 </form>
 <h1>Comments:</h1>
 <table class="comments">
@@ -55,18 +54,9 @@
     </tbody>
 </table>
 
-
 <h1>Add comment:</h1>
 <form id="add-comment" th:action="@{/book/comments/add(bookid=${book.id})}" th:method="post">
-    <!--    <div>-->
-    <!--        <label for="cid-input">ID:</label>-->
-    <!--        <input id = "cid-input" type="text" name="id" readonly="readonly" th:value="${comment.id}" value="1"/>-->
-    <!--    </div>-->
     <div>
-
-        <!--        <label name = "bookid" th:text="${book.id}" >-->
-        <!--&lt;!&ndash;            <input name = "bookid" th:value="${book.id}" value="bookid" readonly="readonly">&ndash;&gt;-->
-        <!--        </label>-->
         <label for="ctext-input">Text:</label>
         <input id="ctext-input" name="text" th:value="${commentText}" type="text" value="Comment sample"/>
     </div>
@@ -74,7 +64,6 @@
     <div>
         <button type="submit">Save</button>
     </div>
-
 
 </form>
 </body>
